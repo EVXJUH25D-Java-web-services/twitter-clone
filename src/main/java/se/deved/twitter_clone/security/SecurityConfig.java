@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import se.deved.twitter_clone.services.IUserService;
@@ -18,10 +19,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(
             HttpSecurity http,
             IUserService userService,
-            JwtService jwtService
+            JwtService jwtService,
+            OAuth2SuccessHandler oauth2SuccessHandler
     ) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(userService)
+                .oauth2Login(oauth ->
+                        oauth.successHandler(oauth2SuccessHandler)
+                )
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/user/register").permitAll()
                             .requestMatchers("/user/login").permitAll()
@@ -29,7 +34,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET, "/post/*").permitAll()
                             .anyRequest().authenticated();
                 })
-                .addFilterBefore(new JwtAuthenticationFilter(userService, jwtService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(new CustomAuthenticationFilter(userService, jwtService), OAuth2LoginAuthenticationFilter.class);
 
         return http.build();
     }

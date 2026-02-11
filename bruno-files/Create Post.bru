@@ -7,12 +7,20 @@ meta {
 post {
   url: http://localhost:8080/post
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+headers {
+  ~Cookie: JSESSIONID=E1A13D016F8E862A7F24985A682459BA;
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0d2l0dGVyLWNsb25lIiwiaWF0IjoxNzcwODAzMTc4LCJleHAiOjE3NzA4MDMyOTgsInN1YiI6ImYwMjk1MTE2LTM2YWUtNGZhYS05NWMzLTg2ODY5MmM3ZDRlMCJ9.bSplPrSnrsDCKwQLDsMR9HbiINbXaWjBzMUPv109CdA
 }
 
 body:json {
   {
-    "content": "Post 3"
+    "content": "Post from JWT"
   }
 }
 

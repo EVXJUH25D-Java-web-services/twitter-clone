@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public interface IUserService extends UserDetailsService {
     User createUser(String username, String password) throws CreateUserException;
+    User createOidcUser(String username, String oidcId, String oidcProvider) throws CreateUserException;
     String authenticateUser(String username, String password) throws AuthException;
     Optional<User> getUserById(UUID userId);
+    Optional<User> getUserByOidc(String oidcId, String oidcProvider);
 }

@@ -63,6 +63,22 @@ public class DefaultUserService implements IUserService {
     }
 
     @Override
+    public User createOidcUser(String username, String oidcId, String oidcProvider) throws CreateUserException {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException();
+        }
+
+        var user = new User(username, null);
+        user.setOidcId(oidcId);
+        user.setOidcProvider(oidcProvider);
+
+        user = userRepository.save(user);
+        log.info("OIDC User '{}' with name '{}' created.", user.getId(), user.getUsername());
+
+        return user;
+    }
+
+    @Override
     public String authenticateUser(String username, String password) throws AuthException {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(AuthException::new);
@@ -77,6 +93,11 @@ public class DefaultUserService implements IUserService {
     @Override
     public Optional<User> getUserById(UUID userId) {
         return userRepository.findById(userId);
+    }
+
+    @Override
+    public Optional<User> getUserByOidc(String oidcId, String oidcProvider) {
+        return userRepository.findByOidcIdAndOidcProvider(oidcId, oidcProvider);
     }
 
     @Override
