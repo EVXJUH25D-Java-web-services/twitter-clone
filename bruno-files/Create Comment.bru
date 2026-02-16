@@ -7,15 +7,17 @@ meta {
 post {
   url: http://localhost:8080/comment
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0d2l0dGVyLWNsb25lIiwiaWF0IjoxNzcxMjUyMzgwLCJleHAiOjE3NzEyNTI1MDAsInN1YiI6ImYwMjk1MTE2LTM2YWUtNGZhYS05NWMzLTg2ODY5MmM3ZDRlMCJ9.5qkf4a7AJTGrPvZxHxAa7PFhSIktMSAlBnIhs2vSXgk
 }
 
 body:json {
   {
     "content": "Kommentar",
-    "username": "Ironman",
-    "password": "Avengers1",
-    "postId": "263a6aa8-4a8d-4579-8bc4-57cf4f98ee18"
+    "postId": "990d6223-bc2d-452f-8719-99c538b89779"
   }
 }
 
