@@ -32,6 +32,9 @@ public class SecurityConfig {
                             .requestMatchers("/user/login").permitAll()
                             .requestMatchers(HttpMethod.GET, "/post/all").permitAll()
                             .requestMatchers(HttpMethod.GET, "/post/*").permitAll()
+                            .requestMatchers("/v3/api-docs/**").permitAll()
+                            .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/swagger-ui.html").permitAll()
                             .anyRequest().authenticated();
                 })
                 .addFilterAfter(new CustomAuthenticationFilter(userService, jwtService), OAuth2LoginAuthenticationFilter.class);
