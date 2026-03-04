@@ -10,7 +10,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IUserService extends UserDetailsService {
+
+    /**
+     * Create and register a new user.
+     *
+     * @param username the username of the new user
+     * @param password the password of the new user
+     * @return the newly created and persisted user
+     * @throws CreateUserException if username is invalid, if user already exists
+     */
     User createUser(String username, String password) throws CreateUserException;
+
     User createOidcUser(String username, String oidcId, String oidcProvider) throws CreateUserException;
     String authenticateUser(String username, String password) throws AuthException;
     Optional<User> getUserById(UUID userId);
